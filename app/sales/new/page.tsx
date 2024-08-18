@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/app/lib/firebaseConfig";
+import { db } from "@/app/_lib/firebaseConfig";
 import React, { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { push, ref, set, update } from "firebase/database";
 import { message } from "antd";

@@ -1,5 +1,5 @@
 "use client";
-import { db } from "@/app/lib/firebaseConfig";
+import { db } from "@/app/_lib/firebaseConfig";
 import { message } from "antd";
 import { push, ref, set } from "firebase/database";
 import { useRouter } from "next/navigation";

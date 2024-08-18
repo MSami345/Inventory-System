@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { db } from "../lib/firebaseConfig";
+import { db } from "../_lib/firebaseConfig";
 import { onValue, ref } from "firebase/database";
 
 const useFetchData = <T,>({
