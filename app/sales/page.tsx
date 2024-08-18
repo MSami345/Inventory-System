@@ -1,30 +1,42 @@
 "use client";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import useFetchData from "../_components/useFetchData";
 import { message } from "antd";
-
-type Item = { productId: string; quantity: number; price: number };
-interface Sale {
-  clientId: string;
-  date: string;
-  totalAmout: number;
-  Items: Item;
-  product?: string;
-  name?: string;
-  email?: string;
-}
+import { ClientSales, Sales, SalesByClient } from "../_components/types";
+import { AnyNaptrRecord } from "dns";
 
 const Sale = () => {
-  const { data, error, loading } = useFetchData<Sale[]>({ endpoint: "sales" });
+  const { data, error, loading } = useFetchData<any>({
+    endpoint: "sales",
+  });
+
+
+  const convertSalesByClient = (salesByClient: { [clientId: string]: { [saleId: string]: Sales } }): ClientSales[] => {
+    return Object.entries(salesByClient).map(([clientId, sales]) => {
+      const salesArray: Sales[] = Object.entries(sales).map(([saleId, saleData]) => ({
+        ...saleData,
+        saleId,
+      }));
+
+      return {
+        clientId,
+        sales: salesArray,
+      };
+    });
+  };
+
 
   useEffect(() => {
     if (error) {
       message.error(error);
     }
 
-    if (data) {
-      console.log(data);
+    if (data.length != 0) {
+      console.log(data)
+
+      const transformedData = convertSalesByClient(data);
+      console.log(transformedData);
     }
   }, [error, data]);
 
@@ -43,8 +55,7 @@ const Sale = () => {
       ) : data.length !== 0 ? (
         <div>
           {/* {data.map((client) => (
-            <>
-            </>
+            <>{console.log(client)}</>
           ))} */}
           <div className="grid grid-cols-6 gap-4 mb-4 p-4 bg-gray-100 rounded-lg">
             <p className="font-semibold text-gray-700">Product Name</p>

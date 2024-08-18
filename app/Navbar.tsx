@@ -27,18 +27,18 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="border-b border-zinc-400">
+    <nav className="border-b border-zinc-400 bg-gray-800">
       <div className="flex justify-between items-center h-14 px-4 py-4">
         <Link href={"/"}>
-          <MdInventory className="text-2xl" />
+          <MdInventory className="text-2xl" color="white" />
         </Link>
         <div className="hidden md:flex items-center space-x-7">
           {list.map((item) => (
             <Link
               key={item.title}
-              className={`hover:text-zinc-700 hover:font-bold ${
-                pathName === item.href ? "text-zinc-900" : "text-zinc-500"
-              } font-semibold`}
+              className={`hover:text-grey-400 hover:font-bold ${
+                pathName === item.href ? "text-zinc-100 font-bold" : "text-zinc-300"
+              }`}
               href={item.href}
             >
               {item.title}
@@ -50,7 +50,7 @@ const Navbar = () => {
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
-          {isOpen ? <FaTimes /> : <FaBars />}
+          {isOpen ? <FaTimes color="white" /> : <FaBars color="white" />}
         </button>
       </div>
       {isOpen && (

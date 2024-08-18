@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function Home() {
   return (
     <div className="min-h-screen bg-gray-100 flex flex-col justify-center items-center">
@@ -24,7 +22,7 @@ export default function Home() {
         </a>
       </section>
 
-      <section id="features" className="bg-white py-20">
+      <section id="features" className="w-full bg-white py-20">
         <div className="container mx-auto px-4">
           <h3 className="text-3xl font-bold text-gray-800 text-center mb-10">
             Key Features
@@ -58,16 +56,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-      <footer id="contact" className="bg-gray-800 py-6">
-        <div className="container mx-auto px-4 text-center text-white">
-          <p className="mb-4">
-            &copy; {new Date().getFullYear()} Inventory System. All rights
-            reserved.
-          </p>
-          <p>Contact us: info@inventorysystem.com</p>
-        </div>
-      </footer>
     </div>
   );
 }
