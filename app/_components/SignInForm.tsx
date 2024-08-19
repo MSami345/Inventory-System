@@ -87,7 +87,7 @@ const SignInForm = (): JSX.Element => {
                 <div className="text-center">
                     <hr className="my-6" />
                     <p className="text-sm">
-                        Don't have an account? <Link href="/sign-up" className="text-primary hover:underline">Sign Up</Link>
+                        {"Don't have an account?"} <Link href="/signUp" className="text-primary hover:underline">Sign Up</Link>
                     </p>
                 </div>
             </div>
