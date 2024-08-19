@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "./Navbar";
+import LayoutWithAuth from "./_components/LayoutWithAuth";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,7 +19,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div className="min-h-screen flex flex-col">
+        {/* <div className="min-h-screen flex flex-col">
           <Navbar />
           <main className="flex-grow"> {children}</main>
           <footer id="contact" className="bg-gray-800 py-6">
@@ -30,7 +31,9 @@ export default function RootLayout({
               <p>Contact us: info@inventorysystem.com</p>
             </div>
           </footer>
-        </div>
+        </div> */}
+        <LayoutWithAuth>{children}</LayoutWithAuth>
+
       </body>
     </html>
   );

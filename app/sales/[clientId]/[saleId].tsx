@@ -1,19 +1,19 @@
 import useFetchData from '@/app/_components/useFetchData';
-import { db } from '@/app/_lib/firebaseConfig'
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import React, { useEffect } from 'react'
 
-const EditSale:NextPage = () => {
+const EditSale: NextPage = () => {
     const router = useRouter();
-    const { id, client } = router.query;
-    const { data, error, loading } = useFetchData({ endpoint: `sales/${client}/${id}` })
+    const { clientId, saleId } = router.query;
+    const { data, error, loading } = useFetchData({ endpoint: `sales/${clientId}/${saleId}` })
     useEffect(() => {
+        console.log(clientId, saleId)
         if (data) {
             console.log(data)
         }
 
-    }, [id, data, error, loading, db])
+    }, [saleId, data, error, loading])
     return (
         <div>EditSale</div>
     )

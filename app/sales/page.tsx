@@ -8,7 +8,7 @@ import { AnyNaptrRecord } from "dns";
 import { useRouter } from "next/navigation";
 
 const Sale = () => {
-  const router=useRouter()
+  const router = useRouter()
   const { data, error, loading } = useFetchData<any>({
     endpoint: "sales",
   });
@@ -79,10 +79,10 @@ const Sale = () => {
                         <td className="px-6 py-4">{client[key].Items.quantity}</td>
                         <td className="px-6 py-4">{client[key].totalAmout}</td>
                         <td className="px-6 py-4 text-left">
-                          <a 
-                          // href={`/sales/${key}/${client["uid"]}`}
+                          <a
+                            // href={`/sales/888/999`}
                             onClick={() => { router.push(`/sales/${key}/${client["uid"]}`) }}
-                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
                             Edit
                           </a>
                           <a href={`/sales/${client["uid"]}/${key}`}
