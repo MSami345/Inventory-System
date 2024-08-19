@@ -5,12 +5,15 @@ import useFetchData from "../_components/useFetchData";
 import { message } from "antd";
 import { ClientSales, Sales, SalesByClient } from "../_components/types";
 import { AnyNaptrRecord } from "dns";
+import { useRouter } from "next/navigation";
 
 const Sale = () => {
+  const router=useRouter()
   const { data, error, loading } = useFetchData<any>({
     endpoint: "sales",
   });
 
+  const list: string[] = ["Product Name", "CLient Name", "Date", "Quantity", "Total Amount", "Actions"]
 
   const convertSalesByClient = (salesByClient: { [clientId: string]: { [saleId: string]: Sales } }): ClientSales[] => {
     return Object.entries(salesByClient).map(([clientId, sales]) => {
@@ -33,15 +36,11 @@ const Sale = () => {
     }
 
     if (data.length != 0) {
-      console.log(data)
-
-      const transformedData = convertSalesByClient(data);
-      console.log(transformedData);
     }
   }, [error, data]);
 
   return (
-    <div className="max-w-4xl mx-auto p-6 bg-white shadow-lg rounded-lg">
+    <div className="max-w-6xl mx-auto p-6 bg-white shadow-lg rounded-lg">
       <div className="flex items-start justify-between mb-2">
         <h1 className="text-2xl font-bold mb-6 text-gray-800">Sales Details</h1>
         <Link href="/sales/new">
@@ -53,42 +52,50 @@ const Sale = () => {
       {loading ? (
         <p className="text-center text-gray-600">Loading...</p>
       ) : data.length !== 0 ? (
-        <div>
-          {/* {data.map((client) => (
-            <>{console.log(client)}</>
-          ))} */}
-          <div className="grid grid-cols-6 gap-4 mb-4 p-4 bg-gray-100 rounded-lg">
-            <p className="font-semibold text-gray-700">Product Name</p>
-            <p className="font-semibold text-gray-700">CLient Name</p>
-            <p className="font-semibold text-gray-700">Product Name</p>
-            <p className="font-semibold text-gray-700">Quantity</p>
-            <p className="font-semibold text-gray-700">Total Amount</p>
-            <p className="font-semibold text-gray-700">Actions</p>
-          </div>
-          {/* {data.map((product) => (
-              <div
-                key={product.uid}
-                className="grid grid-cols-6 items-center gap-4 mb-4 p-2 bg-white border rounded-lg shadow-sm hover:shadow-md transition-shadow"
-              >
-                <p className="text-gray-900">{product.productName}</p>
-                <p className="text-gray-600">{product.companyName}</p>
-                <p className="text-gray-600">{product.category}</p>
-                <p className="text-gray-600">{product.quantity}</p>
-                <p className="text-gray-600">{product.price}</p>
-
-                <button
-                  className="justify-self-start bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                  onClick={() => {
-                    message.info(
-                      `Deleting the product with id: ${product.uid}`
-                    );
-                    // handleDelete(product.uid); // Uncomment this when implementing the delete function
-                  }}
-                >
-                  Delete
-                </button>
-              </div>
-            ))} */}
+        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                {list.map((item, index) => (
+                  <th key={index} scope="col" className="px-6 py-3">
+                    {item}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {data.map((client, index) => (
+                <>
+                  {Object.keys(client).map((key, index) => <>
+                    {key !== "uid" &&
+                      <tr
+                        key={index} className={`bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 ${client["uid"]}`}
+                      >
+                        <th scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                        >{client[key].product}</th>
+                        <td className="px-6 py-4">{client[key].name}</td>
+                        <td className="px-6 py-4">{client[key].date}</td>
+                        <td className="px-6 py-4">{client[key].Items.quantity}</td>
+                        <td className="px-6 py-4">{client[key].totalAmout}</td>
+                        <td className="px-6 py-4 text-left">
+                          <a 
+                          // href={`/sales/${key}/${client["uid"]}`}
+                            onClick={() => { router.push(`/sales/${key}/${client["uid"]}`) }}
+                            className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                            Edit
+                          </a>
+                          <a href={`/sales/${client["uid"]}/${key}`}
+                            className="px-4 font-medium text-red-600 dark:text-red-500 hover:underline">
+                            Delete
+                          </a>
+                        </td>
+                      </tr>}
+                  </>)}
+                </>
+              ))}
+            </tbody>
+          </table>
         </div>
       ) : (
         <p className="text-center text-gray-600">No Sales available</p>

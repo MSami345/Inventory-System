@@ -293,11 +293,10 @@ const AddSale = () => {
           <button
             type="submit"
             disabled={inValid}
-            className={`w-full py-3 bg-indigo-600 ${
-              !inValid ? "hover:bg-indigo-700" : "cursor-not-allowed"
-            } text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition-all`}
+            className={`w-full py-3 bg-indigo-600 ${!inValid ? "hover:bg-indigo-700" : "cursor-not-allowed"
+              } text-white font-semibold rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-75 transition-all`}
           >
-            Add Sale
+            Add Sale +
           </button>
         </form>
       )}

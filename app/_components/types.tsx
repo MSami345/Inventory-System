@@ -20,7 +20,7 @@ export interface Client {
   uid: string;
 }
 
-// type SaleItem = { productId: string; quantity: number; price: number };
+type SaleItem = { productId: string; quantity: number; price: number };
 // export interface Sales {
 //   saleId?: string;
 //   date: string;
@@ -39,11 +39,7 @@ export interface Sales {
   name: string;
   product: string;
   totalAmout: number;
-  Items: {
-    price: number;
-    productId: string;
-    quantity: number;
-  };
+  Items: SaleItem;
   uid: string;
 }
 

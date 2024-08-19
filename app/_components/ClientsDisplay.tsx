@@ -4,9 +4,11 @@ import { Client } from "./types";
 import useFetchData from "./useFetchData";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
+import useDeleteData from "./useDeleteData";
 
 const ClientsDisplay = () => {
   const router = useRouter()
+  const { deleteData, deleteLoad } = useDeleteData();
   const list: string[] = ["Client Name", "Email", "Phone Number ", "Actions"];
   const {
     data,
@@ -56,12 +58,22 @@ const ClientsDisplay = () => {
                   </th>
                   <td className="px-6 py-4">{client.email}</td>
                   <td className="px-6 py-4">{client.phone}</td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-8 py-4-left">
                     <a
                       href={`/clients/${client.uid}`}
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                     >
                       Edit
+                    </a>
+
+                    <a
+                      // href={`/clients/${client.uid}`}
+                      onClick={() => {
+                        deleteData(`/clients/${client.uid}`)
+                      }}
+                      className="px-4 font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
+                    >
+                      Delete
                     </a>
                   </td>
                 </tr>

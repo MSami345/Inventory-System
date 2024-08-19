@@ -4,9 +4,11 @@ import useFetchData from "./useFetchData";
 import { Product } from "./types";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
+import useDeleteData from "./useDeleteData";
 
 const InventroyDisplay = () => {
 
+  const { deleteData, deleteLoad } = useDeleteData();
   const router = useRouter()
   const {
     data,
@@ -65,13 +67,22 @@ const InventroyDisplay = () => {
                   <td className="px-6 py-4">{product.companyName}</td>
                   <td className="px-6 py-4">{product.quantity}</td>
                   <td className="px-6 py-4">{product.price}</td>
-                  <td className="px-6 py-4 text-right">
+                  <td className="px-6 py-4 text-left">
                     <a
                       href={`/inventory/${product.uid}`}
                       className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
 
                     >
                       Edit
+                    </a>
+                    <a
+                      // href={`/clients/${product.uid}`}
+                      onClick={() => {
+                        deleteData(`/products/${product.uid}`)
+                      }}
+                      className="px-4 font-medium text-red-600 dark:text-red-500 hover:underline cursor-pointer"
+                    >
+                      Delete
                     </a>
                   </td>
                 </tr>

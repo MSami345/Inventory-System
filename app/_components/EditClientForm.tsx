@@ -20,7 +20,6 @@ const EditClientForm = () => {
       if (db == null) {
         message.error("Unable to connect with FireBase");
         setLoading(false);
-        setLoading(true)
         return;
       }
       const dbRef = ref(db, `clients/${id}`);
