@@ -1,10 +1,12 @@
 'use client'
 import React, { ChangeEvent, FormEvent, useContext, useState } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { message } from "antd";
 import SessionContext from "./AuthContext";
+import { provider, db } from "../_lib/firebaseConfig";
+import { get, onValue, ref, set } from "firebase/database";
 
 interface FormDataType {
     email: string;
@@ -18,6 +20,39 @@ const SignInForm = (): JSX.Element => {
         password: "",
     });
     const router = useRouter();
+    const handleGoogleSignIn = async () => {
+        try {
+            if (auth == null) return message.error("Unable to connect to FireBase");
+
+            
+            // Ensure account selection is always prompted
+            provider.setCustomParameters({
+                prompt: 'select_account',
+            });
+            const result = await signInWithPopup(auth, provider);
+            const user = result.user;
+            const uid = user.uid;
+            const userName = user.displayName;
+            const email = user.email
+
+            const dbRef = ref(db, `users/${uid}`);
+            onValue(dbRef, async (snapshot) => {
+                if (snapshot.exists()) {
+                    const data = await snapshot.val();
+                    console.log(data);
+                    //  setData(data);
+                } else {
+                    const newuser = await set(ref(db, `users/${uid}`), {
+                        userName,
+                        email,
+                    }).then(() => console.log('user created'))
+                    console.log(newuser)
+                }
+            });
+        } catch (error) {
+            console.error('Google Sign-In Error:', error);
+        }
+    };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -83,6 +118,7 @@ const SignInForm = (): JSX.Element => {
                             Sign In
                         </button>
                     </div>
+
                 </form>
                 <div className="text-center">
                     <hr className="my-6" />
@@ -90,6 +126,11 @@ const SignInForm = (): JSX.Element => {
                         {"Don't have an account?"} <Link href="/signUp" className="text-primary hover:underline">Sign Up</Link>
                     </p>
                 </div>
+            </div>
+            <div className="flex flex-row items-center">
+                <button onClick={handleGoogleSignIn}>
+                    SignIn with google
+                </button>
             </div>
         </div>
     );

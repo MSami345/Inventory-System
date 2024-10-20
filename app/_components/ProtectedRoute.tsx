@@ -3,18 +3,24 @@
 import { useContext, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import SessionContext from "./AuthContext";
-import { User } from "firebase/auth";
+import { Auth, User } from "firebase/auth";
+import { message } from "antd";
 
 interface ProtectedRouteProps {
     children: React.ReactNode;
 }
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-    const { authUser }: { authUser: User | null } = useContext(SessionContext);
+    const { authUser, auth }: { authUser: User | null, auth: Auth | null } = useContext(SessionContext);
     const router = useRouter();
 
     useEffect(() => {
-        if (!authUser) {
+
+        if (auth == null) {
+            message.info("firebase not connected")
+        }
+        if (authUser === null) {
+            message.error("SignIn again")
             router.push("/SignIn");
         }
     }, [authUser, router]);

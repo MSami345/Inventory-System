@@ -54,7 +54,7 @@ const SalesDisplay = () => {
                                                 <td className="px-6 py-4 text-left">
                                                     <a
                                                         // href={`/sales/888/999`}
-                                                        onClick={() => { router.push(`/sales/${key}/${client["uid"]}`) }}
+                                                        onClick={() => { router.push(`/sales/${client["uid"]}/${key}`) }}
                                                         className="font-medium text-blue-600 dark:text-blue-500 hover:underline cursor-pointer">
                                                         Edit
                                                     </a>

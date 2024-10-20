@@ -1,14 +1,16 @@
 "use client";
 import { message } from "antd";
-import React, { FormEvent } from "react";
+import React, { FormEvent, useContext } from "react";
 import { db } from "../_lib/firebaseConfig";
 import { Client } from "./types";
 import { push, ref, set } from "firebase/database";
 import { useRouter } from "next/navigation";
 import ClientForm from "./ClientForm";
+import SessionContext from "./AuthContext";
 
 const AddClientForm = () => {
   const router = useRouter()
+  const { authUser } = useContext(SessionContext)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>, formData: Omit<Client, "uid">) => {
     e.preventDefault();

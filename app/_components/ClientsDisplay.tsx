@@ -1,14 +1,16 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Client } from "./types";
 import useFetchData from "./useFetchData";
 import { message } from "antd";
 import { useRouter } from "next/navigation";
 import useDeleteData from "./useDeleteData";
+import SessionContext from "./AuthContext";
 
 const ClientsDisplay = () => {
   const router = useRouter()
   const { deleteData, deleteLoad } = useDeleteData();
+  const { authUser } = useContext(SessionContext)
   const list: string[] = ["Client Name", "Email", "Phone Number ", "Actions"];
   const {
     data,
@@ -16,7 +18,7 @@ const ClientsDisplay = () => {
     loading,
   }: { data: Client[]; error: string; loading: boolean } = useFetchData<Client>(
     {
-      endpoint: "clients",
+      endpoint: `clients`,
     }
   );
 
